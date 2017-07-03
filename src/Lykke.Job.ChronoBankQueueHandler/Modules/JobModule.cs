@@ -47,7 +47,7 @@ namespace Lykke.Job.ChronoBankQueueHandler.Modules
             var socketLog = new SocketLogDynamic(i => { },
                 str => Console.WriteLine(DateTime.UtcNow.ToIsoDateTime() + ": " + str));
 
-            builder.BindMeConnector(_settings.MatchingEngine.IpEndpoint.GetClientIpEndPoint(), socketLog);
+            builder.BindMeClient(_settings.MatchingEngine.IpEndpoint.GetClientIpEndPoint(), socketLog);
 
             RegisterAzureRepositories(builder, _settings.Db);
             RegisterServices(builder);

@@ -9,11 +9,11 @@ namespace Lykke.Job.ChronoBankQueueHandler.Services.Exchange
 {
     public class ExchangeOperationsService
     {
-        private readonly IMatchingEngineConnector _matchingEngineConnector;
+        private readonly IMatchingEngineClient _matchingEngineConnector;
         private readonly IBitCoinTransactionsRepository _bitCoinTransactionsRepository;
 
 
-        public ExchangeOperationsService(IMatchingEngineConnector matchingEngineConnector, IBitCoinTransactionsRepository bitCoinTransactionsRepository)
+        public ExchangeOperationsService(IMatchingEngineClient matchingEngineConnector, IBitCoinTransactionsRepository bitCoinTransactionsRepository)
         {
             _matchingEngineConnector = matchingEngineConnector;
             _bitCoinTransactionsRepository = bitCoinTransactionsRepository;
