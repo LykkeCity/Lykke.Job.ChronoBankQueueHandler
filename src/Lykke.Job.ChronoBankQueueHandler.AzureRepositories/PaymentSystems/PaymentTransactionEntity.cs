@@ -14,7 +14,6 @@ namespace Lykke.Job.ChronoBankQueueHandler.AzureRepositories.PaymentSystems
             {
                 return "BCO";
             }
-
         }
 
         public static class IndexByClient
@@ -28,7 +27,6 @@ namespace Lykke.Job.ChronoBankQueueHandler.AzureRepositories.PaymentSystems
             {
                 return orderId;
             }
-
         }
 
         public int Id { get; set; }
