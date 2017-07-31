@@ -4,6 +4,8 @@ using AzureStorage.Tables;
 using AzureStorage.Tables.Templates.Index;
 using Common;
 using Common.Log;
+using Lykke.Service.ExchangeOperations.Contracts;
+using Lykke.Service.ExchangeOperations.Client;
 using Lykke.Job.ChronoBankQueueHandler.AzureRepositories.BitCoin;
 using Lykke.Job.ChronoBankQueueHandler.AzureRepositories.PaymentSystems;
 using Lykke.Job.ChronoBankQueueHandler.Core;
@@ -11,7 +13,6 @@ using Lykke.Job.ChronoBankQueueHandler.Core.Domain.BitCoin;
 using Lykke.Job.ChronoBankQueueHandler.Core.Domain.PaymentSystems;
 using Lykke.Job.ChronoBankQueueHandler.Core.Services;
 using Lykke.Job.ChronoBankQueueHandler.Services;
-using Lykke.Job.ChronoBankQueueHandler.Services.Exchange;
 using Lykke.MatchingEngine.Connector.Services;
 
 namespace Lykke.Job.ChronoBankQueueHandler.Modules
@@ -51,12 +52,13 @@ namespace Lykke.Job.ChronoBankQueueHandler.Modules
             builder.BindMeClient(_settings.MatchingEngine.IpEndpoint.GetClientIpEndPoint(), socketLog);
 
             RegisterAzureRepositories(builder, _settings.Db);
-            RegisterServices(builder);
+            RegisterServices(builder, _settings);
         }
 
-        private static void RegisterServices(ContainerBuilder builder)
+        private static void RegisterServices(ContainerBuilder builder, AppSettings.ChronoBankQueueHandlerSettings appSettings)
         {
-            builder.RegisterType<ExchangeOperationsService>().SingleInstance();
+            var exchangeOperationsService = new ExchangeOperationsServiceClient(appSettings.ExchangeOperationsServiceUrl);
+            builder.RegisterInstance(exchangeOperationsService).As<IExchangeOperationsService>().SingleInstance();
         }
 
         private void RegisterAzureRepositories(ContainerBuilder builder, AppSettings.DbSettings settings)

@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Common;
 using Common.Log;
+using Lykke.Service.ExchangeOperations.Contracts;
 using Lykke.Job.ChronoBankQueueHandler.Contract;
 using Lykke.Job.ChronoBankQueueHandler.Core;
 using Lykke.Job.ChronoBankQueueHandler.Core.Domain.BitCoin;
 using Lykke.Job.ChronoBankQueueHandler.Core.Domain.PaymentSystems;
 using Lykke.Job.ChronoBankQueueHandler.Core.Services;
-using Lykke.Job.ChronoBankQueueHandler.Services.Exchange;
 using Lykke.JobTriggers.Triggers.Attributes;
 
 namespace Lykke.Job.ChronoBankQueueHandler.TriggerHandlers
@@ -16,14 +16,18 @@ namespace Lykke.Job.ChronoBankQueueHandler.TriggerHandlers
     {
         private readonly IWalletCredentialsRepository _walletCredentialsRepository;
         private readonly ILog _log;
-        private readonly ExchangeOperationsService _exchangeOperationsService;
+        private readonly IExchangeOperationsService _exchangeOperationsService;
         private readonly IPaymentSystemsRawLog _paymentSystemsRawLog;
         private readonly IPaymentTransactionsRepository _paymentTransactionsRepository;
         private readonly IHealthService _healthService;
 
-        public ChronoBankQueueHandler(IWalletCredentialsRepository walletCredentialsRepository, ILog log,
-            ExchangeOperationsService exchangeOperationsService, IPaymentSystemsRawLog paymentSystemsRawLog,
-            IPaymentTransactionsRepository paymentTransactionsRepository, IHealthService healthService)
+        public ChronoBankQueueHandler(
+            IWalletCredentialsRepository walletCredentialsRepository,
+            ILog log,
+            IExchangeOperationsService exchangeOperationsService,
+            IPaymentSystemsRawLog paymentSystemsRawLog,
+            IPaymentTransactionsRepository paymentTransactionsRepository,
+            IHealthService healthService)
         {
             _walletCredentialsRepository = walletCredentialsRepository;
             _log = log;
@@ -70,7 +74,7 @@ namespace Lykke.Job.ChronoBankQueueHandler.TriggerHandlers
                     return;
                 }
 
-                var result = await _exchangeOperationsService.IssueAsync(walletCreds.ClientId, LykkeConstants.ChronoBankAssetId, msg.Amount);
+                var result = await _exchangeOperationsService.CashInAsync(walletCreds.ClientId, LykkeConstants.ChronoBankAssetId, msg.Amount);
 
                 if (!result.IsOk())
                 {
