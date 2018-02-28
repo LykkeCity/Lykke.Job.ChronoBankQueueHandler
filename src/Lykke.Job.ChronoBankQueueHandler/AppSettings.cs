@@ -14,6 +14,7 @@ namespace Lykke.Job.ChronoBankQueueHandler
         {
             public DbSettings Db { get; set; }
             public HealthSettings Health { get; set; }
+            [AzureQueueCheck]
             public string TriggerQueueConnectionString { get; set; }
         }
 
