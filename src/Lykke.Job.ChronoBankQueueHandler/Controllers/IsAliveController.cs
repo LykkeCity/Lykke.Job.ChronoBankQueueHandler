@@ -3,7 +3,7 @@ using System.Net;
 using Lykke.Job.ChronoBankQueueHandler.Core.Services;
 using Lykke.Job.ChronoBankQueueHandler.Models;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Job.ChronoBankQueueHandler.Controllers
 {
